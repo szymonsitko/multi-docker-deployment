@@ -3,13 +3,13 @@ services:
   - docker
 
 before_install:
-  - docker build -t react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t react-test -f ./frontend/Dockerfile.dev ./frontend
 
 script:
   - docker run react-test npm test -- --coverage
 
 after_success:
-  - docker build -t md-client ./client
+  - docker build -t md-frontend ./frontend
   - docker build -t md-nginx ./nginx
   - docker build -t md-api ./api
   - docker build -t md-worker ./worker
@@ -18,4 +18,4 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Push images into the Docker Hub
-  - docker push md-client md-nginx md-api md-worker
+  - docker push md-frontend md-nginx md-api md-worker
